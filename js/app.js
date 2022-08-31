@@ -41,11 +41,12 @@ const displayPhones = (phones, dataLimit) => {
         
                 `;
         phoneContainer.appendChild(phoneDiv);
-
+        toggleProcess(false);
 
     });
 }
 const processSearch = (dataLimit) => {
+    toggleProcess(true);
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     loadPhone(searchText, dataLimit);
@@ -58,5 +59,14 @@ document.getElementById('search-btn').addEventListener('click', function () {
 document.getElementById('showall-btn').addEventListener('click', function () {
     processSearch();
 })
+
+const toggleProcess = isLoading => {
+    const loading = document.getElementById('loading');
+    if (isLoading) {
+        loading.classList.remove('hidden');
+    } else {
+        loading.classList.add('hidden');
+    }
+}
 
 loadPhone('a');
