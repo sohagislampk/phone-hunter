@@ -20,6 +20,13 @@ const displayPhones = (phones, dataLimit) => {
         showAll.classList.add('hidden');
     }
 
+    const error = document.getElementById('error');
+    if (phones.length === 0) {
+        error.classList.remove('hidden');
+    } else {
+        error.classList.add('hidden');
+    }
+
     phones.forEach(phone => {
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('m-3');
@@ -41,10 +48,12 @@ const displayPhones = (phones, dataLimit) => {
         
                 `;
         phoneContainer.appendChild(phoneDiv);
-        toggleProcess(false);
+
 
     });
+    toggleProcess(false);
 }
+//  search preocess function 
 const processSearch = (dataLimit) => {
     toggleProcess(true);
     const searchField = document.getElementById('search-field');
@@ -52,14 +61,22 @@ const processSearch = (dataLimit) => {
     loadPhone(searchText, dataLimit);
 
 }
+// search button function 
 document.getElementById('search-btn').addEventListener('click', function () {
     processSearch(10);
 })
 
+// Enter press search 
+document.getElementById('search-field').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        processSearch(10);
+    }
+})
+// show all button event litener 
 document.getElementById('showall-btn').addEventListener('click', function () {
     processSearch();
 })
-
+// Loading process function 
 const toggleProcess = isLoading => {
     const loading = document.getElementById('loading');
     if (isLoading) {
@@ -68,5 +85,7 @@ const toggleProcess = isLoading => {
         loading.classList.add('hidden');
     }
 }
+
+
 
 loadPhone('a');
