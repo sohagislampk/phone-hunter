@@ -3,7 +3,6 @@ const loadPhone = async (searchText, dataLimit) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
     displayPhones(data.data, dataLimit);
 }
 
@@ -40,8 +39,8 @@ const displayPhones = (phones, dataLimit) => {
                     <h2/ class="text-1xl"> ${phone.phone_name}</h2>
                     <h2/ class="card-title">Brand : ${phone.brand}</h2>
                     
-                    <div class="card-actions">
-                        <button class="btn btn-primary">Details</button>
+                    <div  class="card-actions">
+                    <label onclick="loadPhoneDetails('${phone.slug}')" for="my-modal" class="btn modal-button">Details</label>
                     </div>
                 </div>
             </div>
@@ -85,7 +84,35 @@ const toggleProcess = isLoading => {
         loading.classList.add('hidden');
     }
 }
+const loadPhoneDetails = async id => {
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    showPhoneDetails(data.data);
+}
+const showPhoneDetails = phone => {
+    console.log(phone);
+    const eachPhoneDetail = document.getElementById('modal-body');
+    eachPhoneDetail.innerHTML = `
+    <h3 class="font-bold text-lg">${phone.name}</h3>
+    <div class="flex">
+    <img src="${phone.image}" alt="" class="rounded-xl m-3" />
+    <div>
+    <h5 class="font-bold">Main Feature</h5>
+    <p class="py-1">Brand : ${phone.brand}</p>
+    <p class="py-1">Chip Set : ${phone.mainFeatures.chipSet}</p>
+    <p class="py-1">Display Size : ${phone.mainFeatures.displaySize}</p>
+    <p class="py-1">Memory : ${phone.mainFeatures.memory}</p>
+    </div>
+    </div>
+    
+     <div class="modal-action">
+        <label for="my-modal" class="btn">Close</label>
+    </div>
+       
+    `
 
 
+}
 
 loadPhone('a');
